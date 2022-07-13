@@ -32,6 +32,8 @@ Kvantum can be configured by script, but for manual configuration:
 - disable compositing and translucency - it can degrade scrolling performance and it can cause glitches in some applications,
 - disable transient scrollbars (optional),
 
+Don't install `libva-vdpau-driver` - uninstall if you have it.
+
 Optional no password for sudo:
 - `sudo visudo` - uncomment line with "%wheel" and "NOPASSWD", save and exit
 - `sudo rm /etc/sudoers.d/10-installer`
@@ -65,3 +67,13 @@ Some useful kernel boot command line:
 - `nmi_watchdog=0`
 - `preempt=full`
 - `highres=on`
+
+Other hints:
+- edit `/etc/default/grub`:
+  - remove `quiet`
+  - add some kernel boot command line arguments
+  - run `sudo update-grub` after configuration
+- edit `/etc/mkinitcpio.conf`:
+  - set `MODULES=(amdgpu)` for early KMS for AMD Radeon GPUs
+  - set `MODULES=(i915)` for early KMS for Intel GPUs
+  - run `sudo mkinitcpio -P`
