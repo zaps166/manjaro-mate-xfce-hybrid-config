@@ -32,8 +32,6 @@ Kvantum can be configured by script, but for manual configuration:
 - disable compositing and translucency - it can degrade scrolling performance and it can cause glitches in some applications,
 - disable transient scrollbars (optional),
 
-Don't install `libva-vdpau-driver` - uninstall if you have it.
-
 Optional no password for sudo:
 - `sudo visudo` - uncomment line with "%wheel" and "NOPASSWD", save and exit
 - `sudo rm /etc/sudoers.d/10-installer`
@@ -77,3 +75,7 @@ Other hints:
   - set `MODULES=(amdgpu)` for early KMS for AMD Radeon GPUs
   - set `MODULES=(i915)` for early KMS for Intel GPUs
   - run `sudo mkinitcpio -P`
+- don't install `libva-vdpau-driver` - uninstall if you have it
+- on laptop install `tlp` and `tlpui` and configure PCI Runtime PM, ASPM, CPU governor for AC and Battery
+- if you don't configure NVIDIA by MHWD, add `options nvidia "NVreg_DynamicPowerManagement=0x02"` to `/etc/modprobe.d/nvidia.conf` on modern laptops to allow to suspend GPU
+- run `watch -n 1 cat /sys/bus/pci/devices/0000:01:00.0/power/runtime_status` to check power status for NVIDIA GPU on laptop (replace `0000:01:00.0` with your configuration from `lspci`)

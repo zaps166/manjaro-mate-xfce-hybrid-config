@@ -96,6 +96,10 @@ function mateSettings() {
     dconf write /org/mate/desktop/peripherals/keyboard/numlock-state "'unknown'"
     dconf write /org/mate/desktop/peripherals/mouse/middle-button-enabled false
     dconf write /org/mate/desktop/peripherals/mouse/cursor-theme "'Oxygen_Zion'"
+    dconf write /org/mate/desktop/peripherals/touchpad/horizontal-two-finger-scrolling true
+    dconf write /org/mate/desktop/peripherals/touchpad/three-finger-click 2
+    dconf write /org/mate/desktop/peripherals/touchpad/two-finger-click 3
+    dconf write /org/mate/desktop/peripherals/touchpad/vertical-edge-scrolling false
 
     # Desktop session
     dconf write /org/mate/desktop/session/logout-timeout 20
@@ -201,7 +205,7 @@ function xfce4Settings()
     xfconf-query -c xfwm4 -p /general/cycle_raise -s false
     xfconf-query -c xfwm4 -p /general/cycle_tabwin_mode -s 1
 
-    xfconf-query -c xfwm4 -p /general/prevent_focus_stealing -s true
+    xfconf-query -c xfwm4 -p /general/prevent_focus_stealing -s false
     xfconf-query -c xfwm4 -p /general/focus_hint -s true
     xfconf-query -c xfwm4 -p /general/activate_action -s "switch"
 
@@ -319,20 +323,20 @@ function installOtherPackages
     echo -n "Do you want to install pipewire? [y/N] "
     read response
     if [[ $response == 'y' || $response == 'Y' ]]; then
-        yes | sudo pacman -S --needed wireplumber manjaro-pipewire rtkit realtime-privileges pipewire-v4l2 pipewire-pulse pipewire-jack
+        yes | sudo pacman -S --needed wireplumber manjaro-pipewire rtkit realtime-privileges pipewire-v4l2 pipewire-pulse pipewire-jack lib32-pipewire
         yes | sudo pacman -R pulseaudio-alsa
     fi
 
-    echo -n "Do you want to install VA-API for opensource drivers? [y/N] "
+    echo -n "Do you want to install VA-API and Vulkan opensource drivers? [y/N] "
     read response
     if [[ $response == 'y' || $response == 'Y' ]]; then
-        yes | sudo pacman -S --needed libva-mesa-driver libva-intel-driver intel-media-driver libva-utils
+        yes | sudo pacman -S --needed vulkan-intel lib32-vulkan-intel vulkan-radeon vulkan-mesa-layers lib32-vulkan-radeon lib32-vulkan-mesa-layers libva-mesa-driver libva-intel-driver intel-media-driver libva-utils
     fi
 
     echo -n "Do you want to install other packages? [y/N] "
     read response
     if [[ $response == 'y' || $response == 'Y' ]]; then
-        yes | sudo pacman -S --needed mesa-utils vulkan-tools pavucontrol helvum seahorse qalculate-gtk ksysguard spectacle kimageformats kcolorchooser okteta kolourpaint kwrite thunar easyeffects remmina
+        yes | sudo pacman -S --needed mesa-utils vulkan-tools pavucontrol helvum seahorse qalculate-gtk ksysguard spectacle kimageformats kcolorchooser okteta kolourpaint kwrite thunar easyeffects remmina lib32-libpulse
     fi
 
     echo -n "Do you want to install xfce4-mate-applet-loader-plugin? [y/N] "
@@ -345,6 +349,7 @@ function installOtherPackages
     read response
     if [[ $response == 'y' || $response == 'Y' ]]; then
         yes | yay -S --needed qdre-compositor-git qdre-compositor-autostart
+        dconf write /org/qdre/compositor/prevent-window-transparency-exceptions "['Mozilla Firefox$', 'Chromium$']"
     fi
 }
 
