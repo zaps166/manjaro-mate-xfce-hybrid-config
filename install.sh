@@ -10,7 +10,6 @@ configurePacman() {
 
 installPackages() {
     echo "Installing packages"
-    yay -Q $PACKAGES > /dev/null 2> /dev/null
     sudo pacman -S --needed base-devel cmake git bash-completion yay mc kvantum kvantum-theme-matcha htop matcha-gtk-theme xfce4-settings xfwm4 xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin xfce4-cpufreq-plugin xfce4-cpugraph-plugin xfce4-netload-plugin xfce4-notes-plugin xfce4-sensors-plugin xfce4-systemload-plugin xfce4-weather-plugin xfce4-whiskermenu-plugin ttf-dejavu oxygen kate || exit
 }
 
@@ -53,6 +52,7 @@ function mateSettings() {
     # Blueman
     dconf write /org/blueman/plugins/powermanager/auto-power-on false
 
+    # Default apps
     dconf write /org/mate/desktop/applications/calculator/exec "'qalculate-gtk'"
 
     # Caja desktop
@@ -259,21 +259,6 @@ function xfce4Settings()
     fi
 }
 
-function installMateXfceTool
-{
-    echo -n "Do you want to install mate-xfce-tool? [y/N] "
-    read response
-    if [[ $response == 'y' || $response == 'Y' ]]; then
-        git clone https://github.com/zaps166/mate-xfce-tool.git || return
-        mkdir -p "mate-xfce-tool/build" || return
-        pushd "mate-xfce-tool/build" || return
-        cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr || popd || return
-        make || popd || return
-        sudo make install/strip
-        popd
-    fi
-}
-
 function configureSystem()
 {
     echo "Setting MAKEFLAGS"
@@ -339,6 +324,12 @@ function installOtherPackages
         yes | sudo pacman -S --needed mesa-utils vulkan-tools pavucontrol helvum seahorse qalculate-gtk ksysguard spectacle kimageformats kcolorchooser okteta kolourpaint kwrite thunar easyeffects remmina lib32-libpulse
     fi
 
+    echo -n "Do you want to install mate-xfce-tool? [y/N] "
+    read response
+    if [[ $response == 'y' || $response == 'Y' ]]; then
+        yes | yay -S mate-xfce-tool-git
+    fi
+
     echo -n "Do you want to install xfce4-mate-applet-loader-plugin? [y/N] "
     read response
     if [[ $response == 'y' || $response == 'Y' ]]; then
@@ -355,13 +346,18 @@ function installOtherPackages
 
 export LANG=C # Needed for "yes"
 
+echo -n "It will change your system behavior! Start script? [y/N] "
+read response
+if [[ $response != 'y' && $response != 'Y' ]]; then
+    exit
+fi
+
 configurePacman
 installPackages
 configureUserData
 mateSettings
 xfce4Settings
-installMateXfceTool
 installOtherPackages
 configureSystem
 
-echo "Reboot the computer!"
+echo "Please update your system and reboot the computer!"
