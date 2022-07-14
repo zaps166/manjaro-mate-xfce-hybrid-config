@@ -301,6 +301,12 @@ function configureSystem()
         echo "Loading pipewire config"
         sudo install -D -m 644 "data/pipewire-client-rt.conf" "/etc/pipewire/client.conf.d/client-rt.conf"
     fi
+
+    echo -n "Do you want to install pacman orphans hook? [y/N] "
+    read response
+    if [[ $response == 'y' || $response == 'Y' ]]; then
+        sudo install -D -m 644 data/orphans.hook /etc/pacman.d/hooks/orphans.hook
+    fi
 }
 
 function installOtherPackages
