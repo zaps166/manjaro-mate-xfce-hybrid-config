@@ -76,8 +76,10 @@ Other hints:
   - set `MODULES=(i915)` for early KMS for Intel GPUs
   - run `sudo mkinitcpio -P`
 - don't install `libva-vdpau-driver` - uninstall if you have it
-- on laptop install `tlp` and `tlpui` and configure PCI Runtime PM, ASPM, CPU governor for AC and Battery
+- on laptop install `tlp` and `tlpui` and configure PCI Runtime PM, ASPM, CPU governor for AC and Battery (enable: `sudo systemctl enable tlp`)
 - if you don't configure NVIDIA by MHWD, add `options nvidia "NVreg_DynamicPowerManagement=0x02"` to `/etc/modprobe.d/nvidia.conf` on modern laptops to allow to suspend GPU
 - run `watch -n 1 cat /sys/bus/pci/devices/0000:01:00.0/power/runtime_status` to check power status for NVIDIA GPU on laptop (replace `0000:01:00.0` with your configuration from `lspci`)
+- [LightDM config for NVIDIA Optimus as first GPU in X11](https://wiki.archlinux.org/title/NVIDIA_Optimus#LightDM)
 - [security (faillock) docs](https://wiki.archlinux.org/title/security#User_setup)
 - [encryption docs](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system)
+- install `xiccd` for color management (settings are located in Xfce4 control panel)
