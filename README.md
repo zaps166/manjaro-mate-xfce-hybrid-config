@@ -79,3 +79,5 @@ Other hints:
 - on laptop install `tlp` and `tlpui` and configure PCI Runtime PM, ASPM, CPU governor for AC and Battery
 - if you don't configure NVIDIA by MHWD, add `options nvidia "NVreg_DynamicPowerManagement=0x02"` to `/etc/modprobe.d/nvidia.conf` on modern laptops to allow to suspend GPU
 - run `watch -n 1 cat /sys/bus/pci/devices/0000:01:00.0/power/runtime_status` to check power status for NVIDIA GPU on laptop (replace `0000:01:00.0` with your configuration from `lspci`)
+- [security (faillock) docs](https://wiki.archlinux.org/title/security#User_setup)
+- [encryption docs](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system)
