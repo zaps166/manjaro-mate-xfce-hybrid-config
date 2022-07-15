@@ -65,7 +65,7 @@ function mateSettings() {
     dconf write /org/mate/caja/preferences/always-use-location-entry true
     dconf write /org/mate/caja/preferences/preview-sound "'never'"
     dconf write /org/mate/caja/preferences/show-icon-text "'never'"
-    dconf write /org/mate/caja/preferences/thumbnail-limit 104857600
+    gsettings set org.mate.caja.preferences thumbnail-limit 104857600
     dconf write /org/mate/caja/preferences/use-iec-units true
 
     # Font rendering
