@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Checking for orphaned packages...
+When = PostTransaction
+Exec = /bin/sh -c "/bin/pacman -Qtd | sed 's/^/    /' || exit 0"
