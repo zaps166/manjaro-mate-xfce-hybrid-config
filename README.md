@@ -28,6 +28,9 @@ Install QMPlay2:
 For laptops with microphone mute LED:
 - `yay -S mic-mute-led-reverse`
 
+For laptops to prevents suspend if you have external display connected when running on laptop's battery in MATE desktop:
+- `yay -S mate-no-sleep-on-battery-lid-closed-git`
+
 Kvantum can be configured by script, but for manual configuration:
 - disable compositing and translucency - it can degrade scrolling performance and it can cause glitches in some applications,
 - disable transient scrollbars (optional),
